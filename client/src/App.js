@@ -1,32 +1,28 @@
-import logo from './logo.svg'
-import './App.css'
-import React, { useEffect, useState } from 'react'
-
+import React from 'react'
+import Layout from './components/Layout'
+import Home from './pages/Home'
+import League from './pages/League'
+import PageNotFound from './pages/404'
+import '@siemens/ix-icons/dist/css/ix-icons.css'
+import '@siemens/ix/dist/siemens-ix/siemens-ix.css'
+import {
+	BrowserRouter as Router,
+	Route,
+	Routes,
+	Navigate,
+} from 'react-router-dom'
 function App() {
-	const [apiResponse, setApiResponse] = useState(null)
-	useEffect(() => {
-		fetch('http://localhost:9000/testAPI')
-			.then((res) => res.text())
-			.then((res) => setApiResponse(res))
-	}, [])
 	return (
-		<div className='App'>
-			<header className='App-header'>
-				<img src={logo} className='App-logo' alt='logo' />
-				<p>
-					Edit <code>src/App.js</code> and save to reload.
-				</p>
-				<a
-					className='App-link'
-					href='https://reactjs.org'
-					target='_blank'
-					rel='noopener noreferrer'
-				>
-					Learn React
-				</a>
-			</header>
-			<p className='App-intro'>{apiResponse}</p>
-		</div>
+		<Router>
+			<Layout>
+				<Routes>
+					<Route path='/' element={<Home />} />
+					<Route path='/league/:id' element={<League />} />
+					<Route path='/404' element={<PageNotFound />} />
+					<Route path='*' element={<Navigate to='/404' />} />
+				</Routes>
+			</Layout>
+		</Router>
 	)
 }
 

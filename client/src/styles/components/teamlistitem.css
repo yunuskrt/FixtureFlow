@@ -1,0 +1,9 @@
+.customModalContent{
+    margin-top: 10px;
+}
+
+.iconWrapper{
+    display: flex;
+    gap: 5px;
+    margin: 0 10px 0 auto;
+}

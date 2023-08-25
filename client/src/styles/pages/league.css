@@ -1,0 +1,29 @@
+
+
+.ptable table {
+    border-collapse: collapse;
+}
+
+.ptable {
+    margin: 0px 0% 30px 0%;
+    display: flex;
+    justify-content: center;
+}
+
+.col th,td {
+    padding: 15px;
+}
+
+.pos {
+    text-align: center;
+}
+.pos:hover {
+    background-color: #FFFFFF;
+}
+.pos:hover td {
+    color: #000000;
+}
+.col {
+    border-bottom: 1px solid #FFFFFF;
+}
+

@@ -1,0 +1,10 @@
+.headerContainer {
+    margin-right: 'auto';
+    width: 100%;
+}
+
+.headerDivider {
+    border: 3px solid white;
+    border-radius: 8px;
+    width: 50%;
+}
