@@ -1,0 +1,19 @@
+.fixtureFormWrapper {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pointsWrapper {
+    display: flex;
+    justify-content: space-between;
+}
+.pointLabel {
+    width: 100%;
+    text-align: center;
+}
+
+.pointInput {
+    width: 30%;
+}

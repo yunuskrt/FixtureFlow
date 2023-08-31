@@ -1,7 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { IxButton, IxEmptyState } from '@siemens/ix-react'
+import React, { useState, useRef } from 'react'
+import { IxButton, IxEmptyState, showModal } from '@siemens/ix-react'
 import '../styles/pages/home.css'
 import TeamListItem from '../components/TeamListItem'
+import CreateFixtureModal from '../components/CreateFixtureModal'
 import { useGlobalContext } from '../context'
 
 const Home = () => {
@@ -67,6 +68,13 @@ const Home = () => {
 		}
 	}
 
+	async function showCreateFixtureModal() {
+		await showModal({
+			title: 'create fixture',
+			content: <CreateFixtureModal teams={teams} />,
+		})
+	}
+
 	return (
 		<div className='homeWrapper'>
 			<input
@@ -100,7 +108,14 @@ const Home = () => {
 					})}
 					<div className='fixtureButton'>
 						{teams.length >= 2 ? (
-							<IxButton class='m-1' outline variant='Primary'>
+							<IxButton
+								class='m-1'
+								outline
+								variant='Primary'
+								onClick={() => {
+									showCreateFixtureModal()
+								}}
+							>
 								Create Fixture
 							</IxButton>
 						) : (
