@@ -25,5 +25,22 @@
 .pos:hover td {
     color: #000000;
 }
+.bottomWrapper {
+    text-align: center;
+}
+.matchInputContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* Adjust as needed */
+}
 
-
+.paginationWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+.roundLabel {
+    margin-top: 5px;
+}

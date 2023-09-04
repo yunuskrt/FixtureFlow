@@ -1,7 +1,6 @@
 const League = require('../models/League')
 const Match = require('../models/Match')
-
-// const { BadRequestError, NotFoundError } = require('../errors')
+const mongoose = require('mongoose')
 
 const getLeague = async (req, res) => {
 	const leagueId = req.params.id
@@ -10,18 +9,41 @@ const getLeague = async (req, res) => {
 		if (!league) {
 			res.status(404).json({ message: 'League Not Found.' })
 		} else {
-			const leagueMatches = await Match.find(
-				{ leagueId: leagueId },
-				'_id homeTeam homeScore awayTeam awayScore round'
-			)
+			const leagueMatches = await Match.aggregate([
+				{ $match: { leagueId: new mongoose.Types.ObjectId(leagueId) } },
+				{
+					$group: {
+						_id: '$round', // Group by the 'round' field
+						matches: {
+							$push: {
+								_id: '$_id',
+								homeTeam: '$homeTeam',
+								homeScore: '$homeScore',
+								awayTeam: '$awayTeam',
+								awayScore: '$awayScore',
+							},
+						}, // Store the matching documents in an array
+					},
+				},
+				{
+					$sort: { _id: 1 }, // Sort by 'round' in ascending order
+				},
+				{
+					$project: {
+						_id: 0, // Exclude the _id field
+						round: '$_id', // Rename _id to round
+						matches: 1, // Include the matches field
+					},
+				},
+			])
 			const modifiedLeague = {
 				...league.toObject(), // Convert the Mongoose document to a plain object
-				matches: leagueMatches,
+				fixture: leagueMatches,
 			}
 			res.status(200).json(modifiedLeague)
 		}
 	} catch (error) {
-		res.status(404).json({ message: 'League Not Found.' })
+		res.status(500).json({ message: error.message })
 	}
 }
 

@@ -1,0 +1,29 @@
+.titleWrapper {
+    display: grid;
+    justify-content: center;
+}
+
+.leagueWithIcon {
+    position: relative;
+    display: inline-block;
+    font-weight: bold;
+}
+
+.leagueTitle {
+    padding: 10px;
+}
+
+.leagueInfoIcon {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.tooltipWrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+}

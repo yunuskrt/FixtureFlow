@@ -1,0 +1,36 @@
+.matchContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+    width: calc(33.33% - 10px);
+    /* Adjust as needed with margin */
+    margin: 3px;
+    /* Adjust as needed */
+    box-sizing: border-box;
+    text-align: center;
+    
+}
+@media (max-width: 1200px) {
+    .matchContainer {
+        width: calc(50% - 10px);
+        /* 2 boxes per row on smaller screens */
+    }
+}
+@media (max-width: 750px) {
+    .matchContainer {
+        width: 100%;
+        /* 1 box per row on even smaller screens */
+    }
+}
+
+.teamNameLabel{
+    margin-top: 5px;
+}
+
+.teamScoreInput{
+    width: 70px;
+    height: 35px;
+    border-radius: 5px;
+}

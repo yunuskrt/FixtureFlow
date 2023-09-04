@@ -11,7 +11,7 @@ const CreateFixtureModal = ({ teams }) => {
 	const loseRef = useRef()
 	const [rematch, setRematch] = useState(false)
 
-	const handleFixtureValidation = () => {
+	async function handleFixtureValidation() {
 		const leagueName = leagueRef.current.value
 		const winPoint = parseInt(winRef.current.value)
 		const drawPoint = parseInt(drawRef.current.value)
@@ -43,11 +43,18 @@ const CreateFixtureModal = ({ teams }) => {
 				rematch: rematch,
 				teams: teams,
 			}
-			const league = axios
-				.post('http://localhost:5000/api/leagues', data, {
-					'Content-Type': 'application/json',
-				})
-				.then((res) => console.log(res.data))
+			try {
+				await axios
+					.post('http://localhost:5000/api/leagues', data, {
+						'Content-Type': 'application/json',
+					})
+					.then((res) => {
+						console.log({ data: res.data, res: res })
+						window.location.href = `/league/${res.data._id}`
+					})
+			} catch (error) {
+				alert(error)
+			}
 		}
 	}
 	return (
