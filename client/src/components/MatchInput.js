@@ -13,11 +13,20 @@ const MatchInput = ({ match, handleInputChange }) => {
 		const awayScoreValue = awayScoreRef.current.value
 
 		if (homeScoreValue === '' && awayScoreValue === '') {
-			setInputValidation({ show: true, message: 'Fill both input fields.' })
+			setInputValidation({
+				show: false,
+				message: '',
+			})
 		} else if (homeScoreValue === '') {
-			setInputValidation({ show: true, message: 'Fill home score field.' })
+			setInputValidation({
+				show: true,
+				message: 'Fill home score field.',
+			})
 		} else if (awayScoreValue === '') {
-			setInputValidation({ show: true, message: 'Fill away score field.' })
+			setInputValidation({
+				show: true,
+				message: 'Fill away score field.',
+			})
 		} else if (homeScoreValue.includes('.') || awayScoreValue.includes('.')) {
 			setInputValidation({
 				show: true,
@@ -29,7 +38,10 @@ const MatchInput = ({ match, handleInputChange }) => {
 				message: 'Score fields can not be less than zero.',
 			})
 		} else {
-			setInputValidation({ show: false, message: '' })
+			setInputValidation({
+				show: false,
+				message: '',
+			})
 		}
 	}
 	return (

@@ -12,6 +12,7 @@ const app = express()
 const connectDB = require('./db/connect')
 // routers
 const leagueRouter = require('./routes/league')
+const matchRouter = require('./routes/match')
 
 // middleware
 app.set('trust proxy', 1)
@@ -30,6 +31,7 @@ app.get('/', (req, res) => {
 	res.send('<h1>Store API</h1><a href="/api/v1/products">products route</a>')
 })
 app.use('/api/leagues', leagueRouter)
+app.use('/api/matches', matchRouter)
 
 const port = process.env.PORT || 5000
 
