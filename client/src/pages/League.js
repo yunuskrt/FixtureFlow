@@ -9,7 +9,7 @@ import '../styles/pages/league.css'
 const League = () => {
 	const { id } = useParams()
 	const [leagueData, setLeagueData] = useState(null)
-	const [leagueExists, setLeagueExists] = useState(true)
+	const [leagueExists, setLeagueExists] = useState(true) // variable that holds if league exists in database
 	const getMatchesForRound = (matches, roundNumber) => {
 		const roundMatch = matches.find((match) => match.round === roundNumber)
 		if (roundMatch) {
@@ -18,9 +18,10 @@ const League = () => {
 			return []
 		}
 	}
-	const [paginationContent, setPaginationContent] = useState([])
-	const [updatedMatches, setUpdatedMatches] = useState([])
+	const [paginationContent, setPaginationContent] = useState([]) // content to displays matches for the spesific round
+	const [updatedMatches, setUpdatedMatches] = useState([]) // matches array to send PUT request
 	const handleMatchChange = (newMatch) => {
+		// function that changes updatedMatches array
 		const index = updatedMatches.findIndex(
 			(match) => match._id === newMatch._id
 		)
@@ -33,6 +34,7 @@ const League = () => {
 		}
 	}
 	useEffect(() => {
+		// get league data from api
 		async function fetchData() {
 			try {
 				await axios
@@ -53,7 +55,7 @@ const League = () => {
 	}, [id])
 
 	return (
-		<div style={{ width: '100%' }}>
+		<div className='pageWrapper'>
 			{leagueExists ? (
 				leagueData === null ? (
 					<div>loading</div>
@@ -81,73 +83,22 @@ const League = () => {
 									<th>L</th>
 									<th>PTS</th>
 								</tr>
-								<tr className='pos'>
-									<td>1</td>
-									<td>Teajsjksd 1</td>
-									<td>2</td>
-									<td>2</td>
-									<td>0</td>
-									<td>0</td>
-									<td>6</td>
-								</tr>
-								<tr className='pos'>
-									<td>2</td>
-									<td>Team 2</td>
-									<td>2</td>
-									<td>2</td>
-									<td>0</td>
-									<td>0</td>
-									<td>6</td>
-								</tr>
-								<tr className='pos'>
-									<td>3</td>
-									<td>Team 3</td>
-									<td>2</td>
-									<td>1</td>
-									<td>1</td>
-									<td>0</td>
-									<td>4</td>
-								</tr>
-								<tr className='pos'>
-									<td>4</td>
-									<td>Team 4</td>
-									<td>2</td>
-									<td>1</td>
-									<td>1</td>
-									<td>0</td>
-									<td>4</td>
-								</tr>
-								<tr className='pos'>
-									<td>5</td>
-									<td>Team 5</td>
-									<td>2</td>
-									<td>1</td>
-									<td>0</td>
-									<td>1</td>
-									<td>3</td>
-								</tr>
-								<tr className='pos'>
-									<td>6</td>
-									<td>Team 6</td>
-									<td>3</td>
-									<td>1</td>
-									<td>0</td>
-									<td>2</td>
-									<td>3</td>
-								</tr>
-								<tr className='pos'>
-									<td>7</td>
-									<td>Team 7</td>
-									<td>2</td>
-									<td>0</td>
-									<td>0</td>
-									<td>2</td>
-									<td>0</td>
-								</tr>
+								{leagueData.standings.map((team, index) => {
+									return (
+										<tr className='pos' key={index}>
+											<td>{index + 1}</td>
+											<td>{team.team}</td>
+											<td>{team.played}</td>
+											<td>{team.win}</td>
+											<td>{team.draw}</td>
+											<td>{team.lose}</td>
+											<td>{team.points}</td>
+										</tr>
+									)
+								})}
 							</table>
 						</div>
 						<Header title='Fixture' />
-						{/* <pre>{JSON.stringify(leagueData, null, 2)}</pre> */}
 						<div className='bottomWrapper'>
 							<div className='matchInputContainer'>
 								{paginationContent.map((match) => {

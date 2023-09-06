@@ -36,9 +36,75 @@ const getLeague = async (req, res) => {
 					},
 				},
 			])
+
+			const points = {
+				winPoint: league.winPoint,
+				drawPoint: league.drawPoint,
+				losePoint: league.losePoint,
+			}
+			const standingTable = league.teams.map((team) => ({
+				team: team,
+				played: 0,
+				win: 0,
+				draw: 0,
+				lose: 0,
+				points: 0,
+			}))
+
+			leagueMatches.map((round) => {
+				let roundMatches = round.matches
+				roundMatches.map((match) => {
+					const { homeTeam, homeScore, awayTeam, awayScore } = match
+					if (homeScore !== null && awayScore !== null) {
+						const homeTeamIndex = standingTable.findIndex(
+							(team) => team.team === homeTeam
+						)
+						const awayTeamIndex = standingTable.findIndex(
+							(team) => team.team === awayTeam
+						)
+						const homeTeamData = standingTable[homeTeamIndex]
+						const awayTeamData = standingTable[awayTeamIndex]
+						homeTeamData.played += 1
+						awayTeamData.played += 1
+						if (homeScore > awayScore) {
+							homeTeamData.win += 1
+							homeTeamData.points += points.winPoint
+							awayTeamData.lose += 1
+							awayTeamData.points += points.losePoint
+						} else if (homeScore === awayScore) {
+							homeTeamData.draw += 1
+							homeTeamData.points += points.drawPoint
+							awayTeamData.draw += 1
+							awayTeamData.points += points.drawPoint
+						} else {
+							homeTeamData.lose += 1
+							homeTeamData.points += points.losePoint
+							awayTeamData.win += 1
+							awayTeamData.points += points.winPoint
+						}
+					}
+					// Team, GP, W, D, L, PTS
+				})
+			})
+			standingTable.sort((a, b) => {
+				// Sort by points in descending order
+				if (b.points !== a.points) {
+					return b.points - a.points
+				}
+
+				// Sort by played in descending order
+				if (b.played !== a.played) {
+					return b.played - a.played
+				}
+
+				// Sort by team name in ascending order
+				return a.team.localeCompare(b.team)
+			})
+
 			const modifiedLeague = {
 				...league.toObject(), // Convert the Mongoose document to a plain object
 				fixture: leagueMatches,
+				standings: standingTable,
 			}
 			res.status(200).json(modifiedLeague)
 		}
